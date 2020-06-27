@@ -1,0 +1,23 @@
+<div class="form-container text-center" style="margin-top: -75px;">
+<form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+
+  <input type="text" id="dni" class="form-control" placeholder="DNI" formControlName="dni" required autofocus value="admin" [ngClass]="{ 'is-invalid': submitted && f.dni.errors }">
+   <div *ngIf="submitted && f.dni.errors" class="invalid-feedback">
+      <div *ngIf="f.dni.errors.required">El DNI es obligatorio</div>
+   </div>
+
+  <input type="password" formControlName="password" id="password" class="form-control" placeholder="Contraseña" required [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+   <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+      <div *ngIf="f.password.errors.required">La contraseña es obligatoria</div>
+   </div>
+
+  	<div class="form-group">
+	   <a routerLink="/register" class="btn btn-link float-left">Registrarse</a>
+	   <button type="submit" [disabled]="loading" class="btn btn-primary float-right">
+	   <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+	   Ingresar
+	   </button>
+	</div>
+</form>
+</div>
