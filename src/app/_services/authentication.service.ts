@@ -43,7 +43,7 @@ export class AuthenticationService {
                     if ('data' in data) {
 
                         var user = new User();
-                            user["id"] = data["data"]["dni"];
+                            user["dni"] = data["data"]["dni"];
                             user["firstName"] = data["data"]["nombre"];
                             user["lastName"] = data["data"]["apellido"];
                             user["token"] = 'fake-jwt-token';

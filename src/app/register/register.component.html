@@ -1,0 +1,52 @@
+<div class="form-container" style="margin-top: -75px;">                	
+    <form class="form-signin" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    	<h1 class="h3 mb-3 font-weight-normal">Registro</h1>
+
+        <div class="form-group">
+            <label for="firstName">Nombre</label>
+            <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                <div *ngIf="f.firstName.errors.required">Este es un campo obligatorio</div>
+                <div *ngIf="f.firstName.errors.minlength">Debe tener al menos {{f.firstName.errors.minlength.requiredLength}} caracteres</div>
+                <div *ngIf="f.firstName.errors.maxlength">Debe menos de {{f.firstName.errors.maxlength.requiredLength}} caracteres</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Apellido</label>
+            <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                <div *ngIf="f.lastName.errors.required">Este es un campo obligatorio</div>
+                <div *ngIf="f.lastName.errors.minlength">Debe tener al menos {{f.lastName.errors.minlength.requiredLength}} caracteres</div>
+                <div *ngIf="f.lastName.errors.maxlength">Debe menos de {{f.lastName.errors.maxlength.requiredLength}} caracteres</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="dni">DNI (sin puntos)</label>
+            <input type="text" formControlName="dni" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.dni.errors }" />
+            <div *ngIf="submitted && f.dni.errors" class="invalid-feedback">
+                <div *ngIf="f.dni.errors.required">Este es un campo obligatorio</div>
+                <div *ngIf="f.dni.errors.minlength">Debe tener al menos {{f.dni.errors.minlength.requiredLength}} caracteres</div>
+                <div *ngIf="f.dni.errors.maxlength">Debe menos de {{f.dni.errors.maxlength.requiredLength}} caracteres</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="text" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Este es un campo obligatorio</div>
+                <div *ngIf="f.password.errors.minlength">Debe tener al menos {{f.password.errors.minlength.requiredLength}} caracteres</div>
+                <div *ngIf="f.password.errors.maxlength">Debe menos de {{f.password.errors.maxlength.requiredLength}} caracteres</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <a routerLink="/login" class="btn btn-link">Cancelar</a>
+            <button [disabled]="loading" class="btn btn-primary float-right">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Registrarse
+            </button>
+        </div>
+
+    </form>			     
+</div>
+		
