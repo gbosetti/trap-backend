@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 27, 2020 at 06:02 PM
+-- Generation Time: Jun 27, 2020 at 07:36 PM
 -- Server version: 5.7.30-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.6
 
@@ -28,11 +28,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `movimientos` (
   `id` int(11) NOT NULL,
-  `entrada` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `salida` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `id_usuario` int(11) NOT NULL,
+  `entrada` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `salida` timestamp NULL DEFAULT NULL,
+  `id_usuario` varchar(15) NOT NULL,
   `temperatura` decimal(3,1) NOT NULL,
-  `supero_olfativo` tinyint(4) NOT NULL
+  `supero_olfativo` tinyint(4) NOT NULL,
+  `id_usuario_guardia` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -78,7 +79,7 @@ CREATE TABLE `usuarios` (
 --
 
 CREATE TABLE `usuarios_admins` (
-  `dni_usuario` int(11) NOT NULL,
+  `dni_usuario` varchar(15) NOT NULL,
   `habilitado` tinyint(4) NOT NULL DEFAULT '0',
   `password` varchar(15) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
