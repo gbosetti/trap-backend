@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 28, 2020 at 05:44 PM
+-- Generation Time: Jun 28, 2020 at 07:11 PM
 -- Server version: 5.7.30-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.6
 
@@ -19,6 +19,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `trap-mobile`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `instalaciones`
+--
+
+CREATE TABLE `instalaciones` (
+  `nombre` varchar(100) NOT NULL,
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `instalaciones`
+--
+
+INSERT INTO `instalaciones` (`nombre`, `id`) VALUES
+('Ciencias y Tecnologías Aplicadas a la Producción, al Ambiente y al Urbanismo', 1),
+('Ciencias Exactas, Físicas y Naturales', 2),
+('Ciencias Sociales, Jurídicas y Económicas', 3),
+('Ciencias Humanas y de la Educación', 4),
+('Ciencias de la Salud', 5),
+('Museo de Ciencias Antropologicas y Naturales', 6),
+('Albergue Universitario', 7),
+('Colegio Pre Universitario General San Martín', 8);
 
 -- --------------------------------------------------------
 
@@ -40,6 +65,17 @@ CREATE TABLE `movimientos` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `movimientos_instalaciones`
+--
+
+CREATE TABLE `movimientos_instalaciones` (
+  `id_movimiento` int(11) NOT NULL,
+  `id_instalaciones` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `movimientos_respuestas`
 --
 
@@ -48,17 +84,6 @@ CREATE TABLE `movimientos_respuestas` (
   `id_pregunta` int(11) NOT NULL,
   `superada` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `movimientos_unidades_academicas`
---
-
-CREATE TABLE `movimientos_unidades_academicas` (
-  `id_movimiento` int(11) NOT NULL,
-  `id_unidad_academica` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -106,17 +131,6 @@ INSERT INTO `settings` (`nombre`, `valor`, `tipo`, `tooltip`, `display`, `placeh
 -- --------------------------------------------------------
 
 --
--- Table structure for table `unidades_academicas`
---
-
-CREATE TABLE `unidades_academicas` (
-  `nombre` varchar(50) NOT NULL,
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `usuarios`
 --
 
@@ -155,22 +169,28 @@ CREATE TABLE `usuarios_guardias` (
 --
 
 --
+-- Indexes for table `instalaciones`
+--
+ALTER TABLE `instalaciones`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `movimientos`
 --
 ALTER TABLE `movimientos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `movimientos_instalaciones`
+--
+ALTER TABLE `movimientos_instalaciones`
+  ADD PRIMARY KEY (`id_movimiento`,`id_instalaciones`);
+
+--
 -- Indexes for table `movimientos_respuestas`
 --
 ALTER TABLE `movimientos_respuestas`
   ADD PRIMARY KEY (`id_movimiento`,`id_pregunta`);
-
---
--- Indexes for table `movimientos_unidades_academicas`
---
-ALTER TABLE `movimientos_unidades_academicas`
-  ADD PRIMARY KEY (`id_movimiento`,`id_unidad_academica`);
 
 --
 -- Indexes for table `preguntas`
@@ -183,12 +203,6 @@ ALTER TABLE `preguntas`
 --
 ALTER TABLE `settings`
   ADD PRIMARY KEY (`nombre`);
-
---
--- Indexes for table `unidades_academicas`
---
-ALTER TABLE `unidades_academicas`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `usuarios`
@@ -213,6 +227,11 @@ ALTER TABLE `usuarios_guardias`
 --
 
 --
+-- AUTO_INCREMENT for table `instalaciones`
+--
+ALTER TABLE `instalaciones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
 -- AUTO_INCREMENT for table `movimientos`
 --
 ALTER TABLE `movimientos`
@@ -222,11 +241,6 @@ ALTER TABLE `movimientos`
 --
 ALTER TABLE `preguntas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `unidades_academicas`
---
-ALTER TABLE `unidades_academicas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

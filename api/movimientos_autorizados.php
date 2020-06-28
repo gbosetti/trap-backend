@@ -6,7 +6,7 @@ header('Access-Control-Allow-Methods: GET, POST');
 
 include('conexion.php');
 
-$starting_fever_point=($mysqli->query("SELECT valor FROM `configs` WHERE nombre='starting_fever_point'"))->fetch_assoc()['valor'];
+$starting_fever_point=($mysqli->query("SELECT valor FROM `settings` WHERE nombre='starting_fever_point'"))->fetch_assoc()['valor'];
 
 $res = $mysqli->query("SELECT * FROM (
     
@@ -23,7 +23,9 @@ $res = $mysqli->query("SELECT * FROM (
     
 ) AS movs LEFT JOIN (
     
-        SELECT id_movimiento, IF((preguntas_totales-preguntas_superadas)=0, 1, 0) AS supero_preguntas, preguntas
+    SELECT *, IF(tmp_supero_preguntas IS NULL,0,tmp_supero_preguntas) AS supero_preguntas FROM(
+    
+        SELECT id_movimiento, IF((preguntas_totales-preguntas_superadas)=0, 1, 0) AS tmp_supero_preguntas, preguntas
         FROM(
             SELECT id_movimiento, SUM(movimientos_respuestas.superada) as preguntas_superadas, COUNT(movimientos_respuestas.superada) as preguntas_totales, CONCAT('[', GROUP_CONCAT('{\"id\":', movimientos_respuestas.id_pregunta,', \"value\":\"',preguntas.cuerpo,'\", \"passed\":', movimientos_respuestas.superada, '}'),']') as preguntas
 
@@ -31,6 +33,7 @@ $res = $mysqli->query("SELECT * FROM (
                 LEFT JOIN preguntas ON preguntas.id = movimientos_respuestas.id_pregunta
                 GROUP BY id_movimiento
         ) as preg_superadas
+    ) as preg_superadas_sin_nul
     
 ) AS pregs ON pregs.id_movimiento = movs.id
 WHERE movs.supero_temperatura=1 AND movs.supero_olfativo=1 AND pregs.supero_preguntas=1");
