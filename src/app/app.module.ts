@@ -13,6 +13,7 @@ import { SettingsComponent } from './settings/settings.component';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { GuardsComponent } from './guards/guards.component';
 import { FacilitiesComponent } from './facilities/facilities.component';
+import { QuestionsComponent } from './questions/questions.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { FacilitiesComponent } from './facilities/facilities.component';
     AdminsComponent,
     SettingsComponent,
     GuardsComponent,
-    FacilitiesComponent
+    FacilitiesComponent,
+    QuestionsComponent
   ],
   imports: [
     BrowserModule,

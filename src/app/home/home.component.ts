@@ -37,6 +37,9 @@ export class HomeComponent implements OnInit {
         });*/
 		    this.loadAllMovements();    
 		});
+    $('#movements tbody').on( 'click', 'button', function () {
+        self[this.getAttribute('data-action')](this.dataset);
+    });
 	}
 
   closeFix(event, datePicker) {
@@ -131,6 +134,11 @@ export class HomeComponent implements OnInit {
         preg['value'] + '<br>' 
       });
 
+      var instalaciones = '';
+      e["instalaciones"] = (e["instalaciones"]==null? [] : JSON.parse(e["instalaciones"])).forEach(inst=>{ 
+        instalaciones += '<i class="fa fa-minus mr-3"></i> ' + inst + '<br>' 
+      });
+
       formattedData.push([
         e["entrada"], 
         e["salida"]=='0000-00-00 00:00:00'? '':e["salida"], //.replace(' ', '<br>'), 
@@ -143,7 +151,11 @@ export class HomeComponent implements OnInit {
         "<div style='text-align: center'>" + 
             (e["supero_olfativo"]==1? '<i class="fa fa-check" style="color:green"></i> Si' : '<i class="fa fa-times" style="color:#d5220e"></i> No') + 
         "</div>", 
-        preguntas,
+        "<div style='text-align: center'>" + 
+            (e["supero_preguntas"]==1? '<i class="fa fa-check" style="color:green"></i> Si' : '<i class="fa fa-times" style="color:#d5220e"></i> No') + 
+            " <small class='ml-1'><button style='border-radius: 25px;' data-action='seeQuestions' data-questions='" + preguntas + "'>Ver</button></small>" +
+        "</div>", 
+        instalaciones,
         e["guardia_ingreso"],
         e["guardia_egreso"]
        ]);
@@ -161,19 +173,35 @@ export class HomeComponent implements OnInit {
     $('#overlay-spinner').fadeOut();
   }
 
+  seeQuestions(data){
+
+    if(!data.questions.length){
+      data.questions = "No se han encontrado preguntas vinculadas a este registro.";
+    }
+    bootbox.alert({
+        title: "Resultados de preguntas realizadas",
+        message: data.questions, 
+        centerVertical: true,
+        callback: function(result){ 
+            console.log(result); 
+        }
+    });
+  }
+
 	enableDatatable(){
 
       $('#movements').DataTable({
             "columnDefs": [ 
               { "title": "Ingreso", "targets": 0, "width": "75px" },
-              { "title": "Egreso", "targets": 1, "width": "100px" },
+              { "title": "Egreso", "targets": 1, "width": "75px" },
               { "title": "Apellido y nombre", "targets": 2, "width": "100px" },
               { "title": "DNI", "targets": 3, "width": "75px" },
               { "title": "Tempe<br>ratura", "targets": 4, "width": "75px" },
               { "title": "Test<br>olfativo<br>superado", "targets": 5, "width": "75px" },
-              { "title": "Preguntas superadas", "targets": 6 },
-              { "title": "Ingreso registrado por:", "targets": 7, "width": "100px" },
-              { "title": "Egreso registrado por:", "targets": 8, "width": "100px" }
+              { "title": "Preguntas superadas", "targets": 6, "width": "75px" },
+              { "title": "Instalaciones<br>visitadas", "targets": 7 },
+              { "title": "Ingreso registrado por:", "targets": 8, "width": "100px" },
+              { "title": "Egreso registrado por:", "targets": 9, "width": "100px" }
             ]
       });
       var self = this;
