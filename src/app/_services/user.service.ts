@@ -31,7 +31,7 @@ export class UserService {
         });
     }
 
-  	registerAdmin(user: User) { 
+  	private registerUser(user: User, endpoint) { 
 
         var formData = new FormData();
             formData.append("nombre", user.firstName);
@@ -42,7 +42,7 @@ export class UserService {
         return new Promise((resolve, reject) => {
 
             $.ajax({
-                url: environment.apiUrl + 'admin_nuevo.php',
+                url: environment.apiUrl + endpoint,
                 type: 'post',
                 processData: false,
                 contentType: false,
@@ -59,6 +59,16 @@ export class UserService {
         });
     }
 
+    registerAdmin(user: User) { 
+
+        return this.registerUser(user, 'admin_nuevo.php');
+    }
+
+    registerGuard(user: User) { 
+
+        return this.registerUser(user, 'guardia_nuevo.php');
+    }
+
     getAdmins(){
 
         return new Promise((resolve, reject) => {
@@ -66,14 +76,26 @@ export class UserService {
                 dataType: "json",
                 url: environment.apiUrl +"admins.php", 
                 success: function(data) {
-
                     resolve(data);
                 }
             });
         });
     }
 
-    deleteAdmin(dni){
+    getGuards(){
+
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                dataType: "json",
+                url: environment.apiUrl +"guardias.php", 
+                success: function(data) {
+                    resolve(data);
+                }
+            });
+        });
+    }
+
+    private deleteUser(dni, endpoint){
 
         var formData = new FormData();
             formData.append("dni", dni);
@@ -87,7 +109,7 @@ export class UserService {
             }
             else{
                 $.ajax({
-                    url: environment.apiUrl + 'admin_eliminar.php',
+                    url: environment.apiUrl + endpoint,
                     type: 'post',
                     processData: false,
                     contentType: false,
@@ -105,7 +127,17 @@ export class UserService {
         });
     }
 
-    toggleAdminEnabledState(dni, enabled){
+    deleteAdmin(dni){
+
+        return this.deleteUser(dni, 'admin_eliminar.php');
+    }
+
+    deleteGuard(dni){
+
+        return this.deleteUser(dni, 'guardia_eliminar.php');
+    }
+
+    private toggleUserEnabledState(dni, enabled, endpoint){
 
         var formData = new FormData();
             formData.append("dni", dni);
@@ -120,7 +152,7 @@ export class UserService {
             }
             else{
                 $.ajax({
-                    url: environment.apiUrl + 'admin_toggle_enabled.php',
+                    url: environment.apiUrl + endpoint,
                     type: 'post',
                     processData: false,
                     contentType: false,
@@ -136,5 +168,15 @@ export class UserService {
                 });
             }
         });
+    }
+
+    toggleAdminEnabledState(dni, enabled){
+
+        return this.toggleUserEnabledState(dni, enabled, 'admin_toggle_enabled.php');
+    }
+
+    toggleGuardEnabledState(dni, enabled){
+
+        return this.toggleUserEnabledState(dni, enabled, 'guardia_toggle_enabled.php');
     }
 }

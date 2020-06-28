@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col">
+    <div class="page-header">
+      <h1 id="tables">Guardias</h1>
+    </div>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <button id="newGuardModalButton" data-toggle="modal" data-target="#newGuardModal" class="btn btn-primary float-right"><i class="fa fa-plus"></i> Nuevo guardia</button>
+        <div class="form-group" id="toolbar"></div>
+    </div>
+</div>
+
+<div style="padding-top: 15px">
+  <table id="guards" class="table table-striped table-bordered" style="width:100%"></table>
+</div>
+
+<!-- Modal Nuevo Guardia -->
+<div class="modal fade" id="newGuardModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+	    <div class="modal-header">
+	        <h5 class="modal-title">Nuevo guardia</h5>
+	    </div>
+	    <form class="form-signin" [formGroup]="registerForm" (ngSubmit)="onNewGuardSubmit()">
+	      	<div class="modal-body">
+		        <div class="form-group">
+		            <label for="firstName">Nombre</label>
+		            <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+		            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+		                <div *ngIf="f.firstName.errors.required">Este es un campo obligatorio</div>
+		                <div *ngIf="f.firstName.errors.minlength">Debe tener al menos {{f.firstName.errors.minlength.requiredLength}} caracteres</div>
+		                <div *ngIf="f.firstName.errors.maxlength">Debe menos de {{f.firstName.errors.maxlength.requiredLength}} caracteres</div>
+		            </div>
+		        </div>
+		        <div class="form-group">
+		            <label for="lastName">Apellido</label>
+		            <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+		            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+		                <div *ngIf="f.lastName.errors.required">Este es un campo obligatorio</div>
+		                <div *ngIf="f.lastName.errors.minlength">Debe tener al menos {{f.lastName.errors.minlength.requiredLength}} caracteres</div>
+		                <div *ngIf="f.lastName.errors.maxlength">Debe menos de {{f.lastName.errors.maxlength.requiredLength}} caracteres</div>
+		            </div>
+		        </div>
+		        <div class="form-group">
+		            <label for="dni">DNI (sin puntos)</label>
+		            <input type="text" formControlName="dni" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.dni.errors }" />
+		            <div *ngIf="submitted && f.dni.errors" class="invalid-feedback">
+		                <div *ngIf="f.dni.errors.required">Este es un campo obligatorio</div>
+		                <div *ngIf="f.dni.errors.minlength">Debe tener al menos {{f.dni.errors.minlength.requiredLength}} caracteres</div>
+		                <div *ngIf="f.dni.errors.maxlength">Debe menos de {{f.dni.errors.maxlength.requiredLength}} caracteres</div>
+		            </div>
+		        </div>
+		        <div class="form-group">
+		            <label for="password">Contraseña</label>
+		            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+		            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+		                <div *ngIf="f.password.errors.required">Este es un campo obligatorio</div>
+		                <div *ngIf="f.password.errors.minlength">Debe tener al menos {{f.password.errors.minlength.requiredLength}} caracteres</div>
+		                <div *ngIf="f.password.errors.maxlength">Debe menos de {{f.password.errors.maxlength.requiredLength}} caracteres</div>
+		            </div>
+		        </div>
+		    </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+				<button type="submit" class="btn btn-primary">Guardar</button>
+			</div>
+	    </form>	
+    </div>
+  </div>
+</div>

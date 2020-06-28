@@ -1,0 +1,10 @@
+.custom-card{
+	background: rgba(0,0,0,0.125);
+	border: none;
+	margin: 1em;
+    padding: 1em;
+}
+
+.cog-info{
+	cursor: pointer;
+}

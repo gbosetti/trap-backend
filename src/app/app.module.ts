@@ -11,6 +11,8 @@ import { RegisterComponent } from './register/register.component';
 import { AdminsComponent } from './admins/admins.component';
 import { SettingsComponent } from './settings/settings.component';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { GuardsComponent } from './guards/guards.component';
+import { FacilitiesComponent } from './facilities/facilities.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     LoginComponent,
     RegisterComponent,
     AdminsComponent,
-    SettingsComponent
+    SettingsComponent,
+    GuardsComponent,
+    FacilitiesComponent
   ],
   imports: [
     BrowserModule,

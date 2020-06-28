@@ -1,1 +1,21 @@
-<p>settings works!</p>
+<div>
+	<div class="row">
+	  	<div class="col">
+		    <div class="page-header">
+		      	<h2>Configuración general de la plataforma</h2>
+		    </div>
+		</div>
+	</div>
+	<div class="row mt-2">		
+		<div class="col-12 settings"></div>
+	</div>
+	<div class="row mt-5">
+		<div class="col-12">
+			<button (click)="saveSettings()" [disabled]="loading" class="btn btn-primary float-right">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Guardar
+            </button>
+		</div>
+    </div>	
+</div>
+				

@@ -33,8 +33,7 @@ $res = $mysqli->query("SELECT * FROM (
         ) as preg_superadas
     
 ) AS pregs ON pregs.id_movimiento = movs.id
-
-ORDER BY entrada");
+WHERE movs.supero_temperatura=1 AND movs.supero_olfativo=1 AND pregs.supero_preguntas=1");
 $json_res = array();
 
 while($f = $res->fetch_object()){

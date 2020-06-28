@@ -20,10 +20,6 @@ export class AdminsComponent implements OnInit {
 
   	this.initializeDatatable();
   	this.loadAdmins();
-
-    $('#newClientModal').on('shown.bs.modal', ()=>{
-      $('#newClientModal input[formControlName="firstName"]').val('').focus();
-    });
   }
 
   initializeDatatable(){
@@ -57,7 +53,6 @@ export class AdminsComponent implements OnInit {
       admins.forEach(e => {
       	
         e["habilitado"] = this.toBool(e["habilitado"]);
-        console.log(e["habilitado"]);
         formattedData.push([
           e["apellido"], 
           e["nombre"], 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 27, 2020 at 09:51 PM
+-- Generation Time: Jun 28, 2020 at 05:44 PM
 -- Server version: 5.7.30-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.6
 
@@ -72,6 +72,37 @@ CREATE TABLE `preguntas` (
   `respuesta_esperada` tinyint(4) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `preguntas`
+--
+
+INSERT INTO `preguntas` (`id`, `cuerpo`, `respuesta_esperada`) VALUES
+(1, '¿Ha estado recientemente en contacto con algún caso covid-19 positivo?', 0),
+(2, '¿Ha salido de la ciudad en los últimos 14 días?', 0),
+(3, '¿Ha tenido fiebre esta semana?', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `nombre` varchar(25) NOT NULL,
+  `valor` varchar(25) NOT NULL,
+  `tipo` varchar(15) NOT NULL,
+  `tooltip` varchar(100) NOT NULL,
+  `display` varchar(50) NOT NULL,
+  `placeholder` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`nombre`, `valor`, `tipo`, `tooltip`, `display`, `placeholder`) VALUES
+('starting_fever_point', '37.5', 'number', 'Temperatura mínima a partir de la cual se considera que una persona tiene fiebre.', 'Límite de temperatura', 'Ej. 37.5');
+
 -- --------------------------------------------------------
 
 --
@@ -115,7 +146,8 @@ CREATE TABLE `usuarios_admins` (
 
 CREATE TABLE `usuarios_guardias` (
   `dni_usuario` varchar(15) NOT NULL,
-  `password` varchar(15) NOT NULL
+  `password` varchar(15) NOT NULL,
+  `habilitado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -145,6 +177,12 @@ ALTER TABLE `movimientos_unidades_academicas`
 --
 ALTER TABLE `preguntas`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`nombre`);
 
 --
 -- Indexes for table `unidades_academicas`
@@ -178,7 +216,7 @@ ALTER TABLE `usuarios_guardias`
 -- AUTO_INCREMENT for table `movimientos`
 --
 ALTER TABLE `movimientos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `preguntas`
 --

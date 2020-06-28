@@ -33,8 +33,7 @@ $res = $mysqli->query("SELECT * FROM (
         ) as preg_superadas
     
 ) AS pregs ON pregs.id_movimiento = movs.id
-
-ORDER BY entrada");
+WHERE movs.entrada IS NULL OR movs.salida IS NULL");
 $json_res = array();
 
 while($f = $res->fetch_object()){

@@ -23,7 +23,7 @@ if (!$mysqli -> query("INSERT INTO usuarios(`nombre`, `apellido`, `dni`) VALUES 
     exit();
 }
 
-if (!$mysqli -> query("INSERT INTO `usuarios_admins`(`dni_usuario`, `habilitado`, `password`) VALUES ('$dni_usuario',0,'$pass')")) {
+if (!$mysqli -> query("INSERT INTO `usuarios_guardias`(`dni_usuario`, `habilitado`, `password`) VALUES ('$dni_usuario',0,'$pass')")) {
     
     echo '{"error": true, "message": "Error: '.$mysqli -> error.'"}'; 
     exit();

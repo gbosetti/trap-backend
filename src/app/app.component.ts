@@ -40,4 +40,12 @@ export class AppComponent {
     navSettings(){
         this.router.navigate(['/settings']);
     }
+
+    navGuards(){
+        this.router.navigate(['/guards']);
+    }
+
+    navFacilities(){
+        this.router.navigate(['/facilities']);
+    }
 }
