@@ -36,4 +36,8 @@ export class AppComponent {
     navHome(){
         this.navMovements();
     }
+
+    navSettings(){
+        this.router.navigate(['/settings']);
+    }
 }

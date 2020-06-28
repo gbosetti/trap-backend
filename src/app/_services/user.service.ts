@@ -6,9 +6,30 @@ import * as $ from 'jquery';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-    private apiUrl;
 
     constructor(private authenticationService: AuthenticationService) {}
+
+    getUserMatching(keywords){
+        var formData = new FormData();
+            formData.append("keywords", keywords);
+
+        return new Promise((resolve, reject) => {
+
+            $.ajax({ 
+                url: environment.apiUrl+'usuario_matching.php',
+                type: 'post',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    resolve(JSON.parse(data));
+                },
+                "error": function (request, status) {
+                    reject([]);
+                },
+                data: formData
+            });
+        });
+    }
 
   	registerAdmin(user: User) { 
 

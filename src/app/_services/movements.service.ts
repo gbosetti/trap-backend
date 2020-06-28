@@ -17,6 +17,24 @@ export class MovementsService {
     return this.post(undefined, 'movimientos.php');
   }
 
+  getAuthorizedMovements(){
+    return this.post(undefined, 'movimientos_autorizados.php');
+  }
+
+  getDeniedMovements(){
+    return this.post(undefined, 'movimientos_denegados.php');
+  }
+
+  getNotClosedMovements(){
+    return this.post(undefined, 'movimientos_incompletos.php');
+  }
+
+  getMovementsMatchingUser(dni){
+    var formData = new FormData();
+        formData.append("dni", dni);
+    return this.post(formData, 'movimientos_matching.php');
+  }
+
   post(formData, endpoint) {
 
         return new Promise((resolve, reject) => {

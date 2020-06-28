@@ -23,15 +23,51 @@
 	          </div>
 	      </div>
 	      <div class="col-4">
-	          <label for="circuito">Mostrar</label>
-	          <div class="input-group mb-3">
-	              	<select class="form-control">
-						<option value="" selected>Todos</option>
-						<option value="">Ingresos autorizados</option>
-						<option value="">Ingresos denegados</option>
-						<option value="">Coincidentes con persona:</option>
-					</select>
-	          </div>
+	          <div class="row">
+		          <label for="circuito">Mostrar</label>
+		          <div class="input-group mb-3">
+		              	<select id="movements-filter" class="form-control">
+							<option value="loadAllMovements" selected>Todos</option>
+							<option value="loadAuthorizedMovements">Ingresos autorizados</option>
+							<option value="loadDeniedMovements">Ingresos denegados</option>
+							<option value="loadMovementsMatching">Coincidentes con persona:</option>
+							<option value="loadNotClosedMovements">Incompletos</option>
+						</select>
+		          </div>
+		      </div>
+	      </div>
+	</div>
+	<div class="row mb-3" id="loadMovementsMatchingPerson">
+	      <div class="col-8"></div>
+	      <div class="col-4">
+	          <label for="circuito">Individuo</label>
+	          <div class="ng-autocomplete buscar-individuo">
+                    <ng-autocomplete [data]="visitors" [searchKeyword]="keyword" [isLoading]="isVisitorLoading" (inputCleared)='onVisitorCleared()'
+                        (inputChanged)='getVisitorServerResponse($event)' [itemTemplate]="itemTemplate" 
+                        (selected)='onVisitorSelected($event)'
+                        [notFoundTemplate]="notFoundTemplate" placeHolder="Buscar individuo...">
+                    </ng-autocomplete>
+
+                    <ng-template #itemTemplate let-item>
+                        <a [innerHTML]="item.name"></a>
+                    </ng-template>
+
+                    <ng-template #notFoundTemplate let-notFound>
+                        <div>Persona no encontrada</div>
+                    </ng-template>
+              </div>
+	      </div>
+	</div>
+
+	<div class="row alert-info-visitante">
+		  <div class="col-12">
+	          <h4 class="nombre-visitante"></h4>
+	      </div>
+	      <div class="col-12">
+	          <ul class="list-group list-group-flush registros-visitante"></ul>
+	      </div>
+	      <div class="col-12 mt-4">
+	          <h4>Registros de individuos coincidentes en el tiempo</h4>
 	      </div>
 	</div>
 

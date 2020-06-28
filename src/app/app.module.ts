@@ -9,6 +9,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AdminsComponent } from './admins/admins.component';
+import { SettingsComponent } from './settings/settings.component';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 @NgModule({
   declarations: [
@@ -16,14 +18,16 @@ import { AdminsComponent } from './admins/admins.component';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    AdminsComponent
+    AdminsComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AutocompleteLibModule
   ],
   providers: [
 

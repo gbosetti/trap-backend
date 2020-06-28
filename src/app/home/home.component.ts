@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MovementsService } from'../_services/movements.service';
+import { UserService } from'../_services/user.service';
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-fixedcolumns-dt';
@@ -12,81 +13,190 @@ declare var bootbox: any;
 })
 export class HomeComponent implements OnInit {
 
-	toDate: String = (new Date()).toISOString().split('T')[0];
-    toDateForReal: Date;
-    fromDate: String = new Date(((new Date()).setMonth((new Date()).getMonth()-1))).toISOString().split('T')[0];
-    fromDateForReal: Date;
+  toDate: String = (new Date()).toISOString().split('T')[0];
+  toDateForReal: Date;
+  fromDate: String = new Date(((new Date()).setMonth((new Date()).getMonth()-1))).toISOString().split('T')[0];
+  fromDateForReal: Date;
 
-	constructor(private movements: MovementsService) { }
+  // User search input variables
+  keyword = 'name';
+  visitors: any = [];
+  isVisitorLoadingResult: boolean;
+
+	constructor(private movements: MovementsService, private users: UserService) { }
 
 	ngOnInit() {
 		var self = this;
 		$(document).ready(()=>{
 		    this.enableDatatable();
-		    this.loadMovements();    
+        $("#movements-filter").on("change", evt=>{
+          this[$(evt.target).val()]();
+        });
+        /*$('#movements').on( 'draw.dt', function () {
+          $('#movements_filter').css("float", "left");
+        });*/
+		    this.loadAllMovements();    
 		});
 	}
 
-	loadMovements(){
+  closeFix(event, datePicker) {
+    if(event.target.offsetParent == null || event.target.offsetParent.nodeName != "NGB-DATEPICKER"){
+      //datePicker.close();
+    }
+  };
 
-    var formattedData = [];
-    $('#overlay-spinner').fadeIn();
+	loadAllMovements(){
+    this.hideMovementsMatchingControls();
     this.movements.getMovements().then((movements: Array<any>) => {
-
-      movements.forEach(e => {
-
-        var preguntas = '';
-        e["preguntas"] = JSON.parse(e["preguntas"]).forEach(preg=>{ 
-          preguntas +=
-          (preg['passed']==1? '<i class="fa fa-check" style="color:green"></i> ' : '<i class="fa fa-times" style="color:#d5220e"></i> ') + 
-          preg['value'] + '<br>' 
-        });
-
-        formattedData.push([
-          e["entrada"], 
-          e["salida"]=='0000-00-00 00:00:00'? '':e["salida"], //.replace(' ', '<br>'), 
-          e["apellido"].replace(' ', '<br>'), 
-          e["nombre"].replace(' ', '<br>'), 
-          e["dni"], 
-          "<div style='text-align: center'>" + 
-            e["temperatura"] +
-          "</div>", 
-          "<div style='text-align: center'>" + 
-              (e["supero_olfativo"]==1? '<i class="fa fa-check" style="color:green"></i> Si' : '<i class="fa fa-times" style="color:#d5220e"></i> No') + 
-          "</div>", 
-          preguntas
-         ]);
-      });
-
-      $('#movements').DataTable().clear().destroy();
-      $('#movements').DataTable({
-        "data": formattedData,
-        "language": {
-          "url": "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-        }
-      });
-      $('#overlay-spinner').fadeOut();
+      this.loadMovements(movements);
     });
 	}
 
-  	enableDatatable(){
+  loadAuthorizedMovements(){
+    this.hideMovementsMatchingControls();
+    this.movements.getAuthorizedMovements().then((movements: Array<any>) => {
+      this.loadMovements(movements);
+    });
+  }
 
-        $('#movements').DataTable({
-              "columnDefs": [ 
-                { "title": "Entrada", "targets": 0, "width": "75px" },
-                { "title": "Salida", "targets": 1, "width": "100px" },
-                { "title": "Apellido", "targets": 2, "width": "100px" },
-                { "title": "Nombre", "targets": 3, "width": "75px" },
-                { "title": "DNI", "targets": 4, "width": "75px" },
-                { "title": "Tempe<br>ratura", "targets": 5, "width": "75px" },
-                { "title": "Test<br>olfativo<br>superado", "targets": 6, "width": "75px" },
-                { "title": "Preguntas superadas", "targets": 7 }
-              ]
-        });
-        var self = this;
-	    $('#movements tbody').on( 'click', 'button', function () {
-	        self[this.getAttribute('data-action')](this.dataset);
-	    });
-    }
+  loadDeniedMovements(){
+    this.hideMovementsMatchingControls();
+    this.movements.getDeniedMovements().then((movements: Array<any>) => {
+      this.loadMovements(movements);
+    });
+  }
 
+  loadNotClosedMovements(){
+    this.hideMovementsMatchingControls();
+    this.movements.getNotClosedMovements().then((movements: Array<any>) => {
+      this.loadMovements(movements);
+    });
+  }
+
+  loadMovementsMatching(){
+    this.visitors = [];
+    this.clearDatatable();
+    this.showMovementsMatchingControls();
+    $("#loadMovementsMatchingPerson .input-container input").focus();
+  }
+
+  hideMovementsMatchingControls(){
+    $("#loadMovementsMatchingPerson").hide();
+    $(".alert-info-visitante").addClass("d-none");
+  }
+
+  showMovementsMatchingControls(){
+    $("#loadMovementsMatchingPerson").show();
+    $(".alert-info-visitante").addClass("d-none");
+    $(".alert-info-visitante .registros-visitante").html('');
+  }
+
+  onVisitorSelected(data){
+    $(".alert-info-visitante").removeClass("d-none");
+    $(".alert-info-visitante .nombre-visitante").html("Registros de " + data.name);
+    $(".alert-info-visitante .registros-visitante").html('');
+    this.movements.getMovementsMatchingUser(data.id).then((movements: Array<any>) => {
+
+      movements['user_movements'].forEach(mov=>{
+        $(".alert-info-visitante .registros-visitante").append('<li class="list-group-item">'+
+            '<i class="fa fa-minus mr-3" aria-hidden="true"></i> ' + 
+            '<span class="mr-3"> ingreso: ' + mov['entrada'] + '</span>' +
+            '<span class="mr-3"> egreso: ' + mov['salida'] + '</span>' +
+          '</li>');
+      });
+      
+      this.loadMovements(movements['related_movements']);
+
+    }).catch(err=>{
+      console.log(err);
+      this.clearDatatable();
+    });
+  }
+
+  onVisitorCleared(data){
+    this.clearDatatable();
+  }
+
+  loadMovements(movements){
+
+    var formattedData = [];
+    $('#overlay-spinner').fadeIn();
+
+    movements.forEach(e => {
+
+      var preguntas = '';
+      e["preguntas"] = (e["preguntas"]==null? [] : JSON.parse(e["preguntas"])).forEach(preg=>{ 
+        preguntas +=
+        (preg['passed']==1? '<i class="fa fa-check" style="color:green"></i> ' : '<i class="fa fa-times" style="color:#d5220e"></i> ') + 
+        preg['value'] + '<br>' 
+      });
+
+      formattedData.push([
+        e["entrada"], 
+        e["salida"]=='0000-00-00 00:00:00'? '':e["salida"], //.replace(' ', '<br>'), 
+        e["apellido"].toUpperCase() + ', ' + e["nombre"], 
+        e["dni"], 
+        "<div style='text-align: center'>" + 
+          (e["supero_temperatura"]==1? '<i class="fa fa-check" style="color:green"></i> ' : '<i class="fa fa-times" style="color:#d5220e"></i> ') +
+          e["temperatura"] +
+        "</div>", 
+        "<div style='text-align: center'>" + 
+            (e["supero_olfativo"]==1? '<i class="fa fa-check" style="color:green"></i> Si' : '<i class="fa fa-times" style="color:#d5220e"></i> No') + 
+        "</div>", 
+        preguntas,
+        e["guardia_ingreso"],
+        e["guardia_egreso"]
+       ]);
+    });
+
+    this.clearDatatable();
+    $('#movements').DataTable({
+      "data": formattedData,
+      //"dom": '<"top"f>t<"bottom"lp><"clear">',
+      "language": {
+        "url": "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+      }
+    });
+    
+    $('#overlay-spinner').fadeOut();
+  }
+
+	enableDatatable(){
+
+      $('#movements').DataTable({
+            "columnDefs": [ 
+              { "title": "Ingreso", "targets": 0, "width": "75px" },
+              { "title": "Egreso", "targets": 1, "width": "100px" },
+              { "title": "Apellido y nombre", "targets": 2, "width": "100px" },
+              { "title": "DNI", "targets": 3, "width": "75px" },
+              { "title": "Tempe<br>ratura", "targets": 4, "width": "75px" },
+              { "title": "Test<br>olfativo<br>superado", "targets": 5, "width": "75px" },
+              { "title": "Preguntas superadas", "targets": 6 },
+              { "title": "Ingreso registrado por:", "targets": 7, "width": "100px" },
+              { "title": "Egreso registrado por:", "targets": 8, "width": "100px" }
+            ]
+      });
+      var self = this;
+    $('#movements tbody').on( 'click', 'button', function () {
+        self[this.getAttribute('data-action')](this.dataset);
+    });
+  }
+
+  clearDatatable(){
+    $('#movements').DataTable().clear().destroy();
+  }
+
+  getVisitorServerResponse(keywords) {
+    if(this.isVisitorLoadingResult)
+      return;
+
+    this.isVisitorLoadingResult = true;
+    this.users.getUserMatching(keywords).then(data => {
+        this.visitors = data;
+        this.isVisitorLoadingResult = false;
+    }, data => {
+        this.visitors = [];
+        this.isVisitorLoadingResult = false;
+    });
+  }
 }

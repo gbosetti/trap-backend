@@ -5,3 +5,11 @@ nav a{
 .container{
 	max-width: 95% !important;
 }
+
+.autocomplete-container{
+	z-index: 9999999;
+}
+
+.ng-autocomplete {
+    width: 100% !important;
+}

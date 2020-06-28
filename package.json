@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~8.0.1",
     "@angular/platform-browser-dynamic": "~8.0.1",
     "@angular/router": "~8.0.1",
+    "angular-ng-autocomplete": "^2.0.1",
     "bootbox": "^5.4.0",
     "bootstrap-datepicker": "^1.9.0",
     "bootswatch": "^4.5.0",
