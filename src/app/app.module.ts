@@ -14,6 +14,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { GuardsComponent } from './guards/guards.component';
 import { FacilitiesComponent } from './facilities/facilities.component';
 import { QuestionsComponent } from './questions/questions.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { QuestionsComponent } from './questions/questions.component';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    NgbModule
   ],
   providers: [
 

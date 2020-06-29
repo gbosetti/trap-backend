@@ -13,25 +13,44 @@ export class MovementsService {
   	return this.post(undefined, 'usuarios.php');
   }
 
-  getMovements(){
-    return this.post(undefined, 'movimientos.php');
-  }
-
-  getAuthorizedMovements(){
-    return this.post(undefined, 'movimientos_autorizados.php');
-  }
-
-  getDeniedMovements(){
-    return this.post(undefined, 'movimientos_denegados.php');
-  }
-
-  getNotClosedMovements(){
-    return this.post(undefined, 'movimientos_incompletos.php');
-  }
-
-  getMovementsMatchingUser(dni){
+  getMovements(fromDate, toDate){
     var formData = new FormData();
+        formData.append("fromDate", fromDate.toString());
+        formData.append("toDate", toDate.toString());
+
+    return this.post(formData, 'movimientos.php');
+  }
+
+  getAuthorizedMovements(fromDate, toDate){
+    var formData = new FormData();
+        formData.append("fromDate", fromDate.toString());
+        formData.append("toDate", toDate.toString());
+
+    return this.post(formData, 'movimientos_autorizados.php');
+  }
+
+  getDeniedMovements(fromDate, toDate){
+    var formData = new FormData();
+        formData.append("fromDate", fromDate.toString());
+        formData.append("toDate", toDate.toString());
+
+    return this.post(formData, 'movimientos_denegados.php');
+  }
+
+  getNotClosedMovements(fromDate, toDate){
+    var formData = new FormData();
+        formData.append("fromDate", fromDate.toString());
+        formData.append("toDate", toDate.toString());
+
+    return this.post(formData, 'movimientos_incompletos.php');
+  }
+
+  getMovementsMatchingUser(dni, fromDate, toDate){
+    var formData = new FormData();
+        formData.append("fromDate", fromDate.toString());
+        formData.append("toDate", toDate.toString());
         formData.append("dni", dni);
+        
     return this.post(formData, 'movimientos_matching.php');
   }
 
@@ -44,6 +63,7 @@ export class MovementsService {
                 processData: false,
                 contentType: false,
                 success: function (data) {
+                  console.log(data);
                     var res = JSON.parse(data);
                     if(res.error==false) resolve(res.data);
                     else reject(res.message);

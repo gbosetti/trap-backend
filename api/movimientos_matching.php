@@ -6,6 +6,8 @@ header('Access-Control-Allow-Methods: GET, POST');
 
 include('conexion.php');
 @$dni=$_REQUEST['dni'];
+@$fromDate=$_REQUEST['fromDate'];
+@$toDate=$_REQUEST['toDate'];
 
 $res = $mysqli->query("SELECT `entrada`, `salida` FROM `movimientos` WHERE dni_usuario='$dni'");
 $starting_fever_point=($mysqli->query("SELECT valor FROM `settings` WHERE nombre='starting_fever_point'"))->fetch_assoc()['valor'];
@@ -46,7 +48,7 @@ while($times = $res->fetch_object()){
             GROUP BY movimientos.id
         ) AS inst ON inst.id = movs.id
 
-        WHERE `dni_usuario` != $dni ";
+        WHERE `dni_usuario` != $dni AND (entrada BETWEEN '$fromDate' AND '$toDate' OR salida BETWEEN '$fromDate' AND '$toDate') ";
 
     $entrada = $times->entrada;
     $salida = $times->salida;

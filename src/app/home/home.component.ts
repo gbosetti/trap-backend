@@ -31,12 +31,12 @@ export class HomeComponent implements OnInit {
 		$(document).ready(()=>{
 		    this.enableDatatable();
         $("#movements-filter").on("change", evt=>{
-          this[$(evt.target).val()]();
+          this.loadMovenetsStrategy();
         });
         /*$('#movements').on( 'draw.dt', function () {
           $('#movements_filter').css("float", "left");
         });*/
-		    this.loadAllMovements();    
+		    this.loadAllMovements(this.getFromDate(), this.getToDate());    
 		});
     $('#movements tbody').on( 'click', 'button', function () {
         self[this.getAttribute('data-action')](this.dataset);
@@ -45,39 +45,62 @@ export class HomeComponent implements OnInit {
 
   closeFix(event, datePicker) {
     if(event.target.offsetParent == null || event.target.offsetParent.nodeName != "NGB-DATEPICKER"){
-      //datePicker.close();
+      datePicker.close();
     }
   };
 
-	loadAllMovements(){
+  getFromDate(){
+    return ($("#fromDate").val() || $("#fromDate").attr("placeholder")).toString() + " 00:00:00";
+  }
+
+  getToDate(){
+    return ($("#toDate").val() || $("#toDate").attr("placeholder")).toString() + " 23:59:59";
+  }
+
+  loadMovenetsStrategy(){
+
+    var from = this.getFromDate();
+    var to = this.getToDate();
+
+    if(new Date(from.replace(/-/gi, "/")) > new Date(to.replace(/-/gi, "/"))){
+      bootbox.alert('La fecha indicada en el campo "Desde" debe ser menor o igual a la indicada en el campo "Hasta".');
+      $('#movements').DataTable().clear().destroy(); 
+      return;
+    }
+
+    this[$("#movements-filter").val()](from, to);
+  }
+
+	loadAllMovements(from, to){
     this.hideMovementsMatchingControls();
-    this.movements.getMovements().then((movements: Array<any>) => {
+    
+    this.movements.getMovements(from, to).then((movements: Array<any>) => {
       this.loadMovements(movements);
     });
 	}
 
-  loadAuthorizedMovements(){
+  loadAuthorizedMovements(from, to){
     this.hideMovementsMatchingControls();
-    this.movements.getAuthorizedMovements().then((movements: Array<any>) => {
+    this.movements.getAuthorizedMovements(from, to).then((movements: Array<any>) => {
       this.loadMovements(movements);
     });
   }
 
-  loadDeniedMovements(){
+  loadDeniedMovements(from, to){
     this.hideMovementsMatchingControls();
-    this.movements.getDeniedMovements().then((movements: Array<any>) => {
+    this.movements.getDeniedMovements(from, to).then((movements: Array<any>) => {
       this.loadMovements(movements);
     });
   }
 
-  loadNotClosedMovements(){
+  loadNotClosedMovements(from, to){
     this.hideMovementsMatchingControls();
-    this.movements.getNotClosedMovements().then((movements: Array<any>) => {
+    this.movements.getNotClosedMovements(from, to).then((movements: Array<any>) => {
       this.loadMovements(movements);
     });
   }
 
-  loadMovementsMatching(){
+  loadMovementsMatching(from, to){
     this.visitors = [];
     this.clearDatatable();
     this.showMovementsMatchingControls();
@@ -99,7 +122,7 @@ export class HomeComponent implements OnInit {
     $(".alert-info-visitante").removeClass("d-none");
     $(".alert-info-visitante .nombre-visitante").html("Registros de " + data.name);
     $(".alert-info-visitante .registros-visitante").html('');
-    this.movements.getMovementsMatchingUser(data.id).then((movements: Array<any>) => {
+    this.movements.getMovementsMatchingUser(data.id, this.getFromDate(), this.getToDate()).then((movements: Array<any>) => {
 
       movements['user_movements'].forEach(mov=>{
         $(".alert-info-visitante .registros-visitante").append('<li class="list-group-item">'+
@@ -112,7 +135,6 @@ export class HomeComponent implements OnInit {
       this.loadMovements(movements['related_movements']);
 
     }).catch(err=>{
-      console.log(err);
       this.clearDatatable();
     });
   }

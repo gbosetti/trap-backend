@@ -11,14 +11,14 @@
 	      <div class="col-4">
 	          <label for="circuito">Desde</label>
 	          <div class="input-group mb-3">
-	              <input style="background: white;" [(ngModel)]="fromDateForReal" (ngModelChange) = "loadOrders()" class="form-control" placeholder="{{ fromDate }}" name="fromDate" id="fromDate" ngbDatepicker  (click)="fd.toggle(); $event.stopPropagation();" (document:click)="closeFix($event, fd)" readonly>
+	              <input style="background: white;" [(ngModel)]="fromDateForReal" (ngModelChange) = "loadMovenetsStrategy()" class="form-control" placeholder="{{ fromDate }}" name="fromDate" id="fromDate" ngbDatepicker  (click)="fd.toggle(); $event.stopPropagation();" (document:click)="closeFix($event, fd)" readonly #fd="ngbDatepicker">
 	              <button class="btn btn-primary input-group-append" (click)="fd.toggle(); $event.stopPropagation();"><i class="fa fa-calendar"></i></button>
 	          </div>
 	      </div>
 	      <div class="col-4">
 	          <label for="circuito">Hasta</label>
 	          <div class="input-group mb-3">
-	              <input style="background: white;" [(ngModel)]="toDateForReal" (ngModelChange) = "loadOrders()" class="form-control" value="{{ toDateForReal }}" placeholder="{{ toDate }}" name="toDate" id="toDate" ngbDatepicker (click)="d.toggle(); $event.stopPropagation();" (document:click)="closeFix($event, d)" readonly>
+	              <input style="background: white;" [(ngModel)]="toDateForReal" (ngModelChange) = "loadMovenetsStrategy()" class="form-control" value="{{ toDateForReal }}" placeholder="{{ toDate }}" name="toDate" id="toDate" ngbDatepicker (click)="d.toggle(); $event.stopPropagation();" (document:click)="closeFix($event, d)" readonly #d="ngbDatepicker">
 	              <button (click)="d.toggle(); $event.stopPropagation();" class="btn btn-primary input-group-append"><i class="fa fa-calendar"></i></button>
 	          </div>
 	      </div>

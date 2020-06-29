@@ -6,6 +6,9 @@ header('Access-Control-Allow-Methods: GET, POST');
 
 include('conexion.php');
 
+@$fromDate=$_REQUEST['fromDate'];
+@$toDate=$_REQUEST['toDate'];
+
 $starting_fever_point=($mysqli->query("SELECT valor FROM `settings` WHERE nombre='starting_fever_point'"))->fetch_assoc()['valor'];
 
 $res = $mysqli->query("SELECT *, IF(tmp_supero_preguntas IS NULL,0,tmp_supero_preguntas) AS supero_preguntas FROM (
@@ -42,7 +45,7 @@ LEFT JOIN (
     GROUP BY movimientos.id
 ) AS inst ON inst.id = movs.id
 
-WHERE movs.entrada IS NULL OR movs.salida IS NULL");
+WHERE (movs.entrada IS NULL OR movs.salida IS NULL) AND (entrada BETWEEN '$fromDate' AND '$toDate' OR salida BETWEEN '$fromDate' AND '$toDate')");
 $json_res = array();
 
 while($f = $res->fetch_object()){
