@@ -104,7 +104,10 @@ export class HomeComponent implements OnInit {
     this.visitors = [];
     this.clearDatatable();
     this.showMovementsMatchingControls();
-    $("#loadMovementsMatchingPerson .input-container input").focus();
+
+    setTimeout(function(){ 
+      $("#loadMovementsMatchingPerson .input-container input").val('').focus();
+    }, 100);
   }
 
   hideMovementsMatchingControls(){
