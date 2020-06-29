@@ -7,7 +7,7 @@ header('Access-Control-Allow-Methods: GET, POST');
 include('conexion.php');
 @$dni=$_REQUEST['dni'];
 
-$registros_como_guardia=($mysqli->query("SELECT count(id) as count FROM `movimientos` WHERE id_usuario_guardia='$dni'"))->fetch_assoc();
+$registros_como_guardia=($mysqli->query("SELECT count(id) as count FROM `movimientos` WHERE dni_guardia_ingreso='$dni' OR dni_guardia_egreso='$dni'"))->fetch_assoc();
 $registros_como_visitante=($mysqli->query("SELECT count(id) as count FROM `movimientos` WHERE dni_usuario='$dni'"))->fetch_assoc();
 
 if ($registros_como_guardia['count'] > 0 || $registros_como_visitante['count'] > 0) {

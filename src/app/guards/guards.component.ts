@@ -7,6 +7,8 @@ import 'datatables.net';
 import 'datatables.net-fixedcolumns-dt';
 declare var bootbox: any;
 import { FormBuilder, FormGroup, Validators, FormGroupDirective } from '@angular/forms';
+import { DatatablesSpanish } from '../_helpers/datatables-spanish';
+
 
 @Component({
   selector: 'app-guards',
@@ -29,7 +31,9 @@ export class GuardsComponent implements OnInit {
         firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(35)]],
         lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(35)]],
         password: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(15)]],
-        dni: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(15)]]
+        dni: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(15)]],
+        telefono: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(10)]],
+        codigo_area: [54380, [Validators.required, Validators.minLength(3), Validators.maxLength(4)]]
     });
 
     $('#newGuardModal').on('shown.bs.modal', ()=>{
@@ -44,9 +48,10 @@ export class GuardsComponent implements OnInit {
 
   initNewGuardForm() {
   		this.registerForm.reset();
-        $("#newGuardModal .form-control").each((idx, ctrl)=>{$(ctrl).removeClass("is-invalid")});
-        this.loading = false;
-        this.submitted = false;
+      this.registerForm.get('codigo_area').setValue(54380);
+      $("#newGuardModal .form-control").each((idx, ctrl)=>{$(ctrl).removeClass("is-invalid")});
+      this.loading = false;
+      this.submitted = false;
   }
 
   onNewGuardSubmit() {
@@ -86,8 +91,9 @@ export class GuardsComponent implements OnInit {
         { "title": "Apellido", "targets": 0 },
         { "title": "Nombre", "targets": 1 },
         { "title": "DNI", "width": "100px", "targets": 2 },
-        { "title": "Habilitado", "width": "100px", "targets": 3 },
-        { "title": "Acciones", "width": "150px", "targets": 4 }
+        { "title": "Teléfono", "width": "100px", "targets": 3 },
+        { "title": "Habilitado", "width": "100px", "targets": 4 },
+        { "title": "Acciones", "width": "150px", "targets": 5 }
       ]
     });
     var self = this;
@@ -113,6 +119,7 @@ export class GuardsComponent implements OnInit {
           e["apellido"], 
           e["nombre"], 
           e["dni"],
+          e["codigo_area"] + " " + e["telefono"],
           e["habilitado"]? 'Si <i class="fa fa-check" style="color:green"></i>' : 'No <i class="fa fa-times" style="color:#d5220e"></i>',
           "<div style='text-align: center'>" + 
 	          "<button data-action='" + ((e["habilitado"])? 'disableGuard' : 'enableGuard') + 

@@ -5,15 +5,15 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class FacilitiesService {
+export class QuestionsService {
 
   	constructor() { }
 
-  	getFacilities(){
+	getQuestions(){
         return new Promise((resolve, reject) => {
 
             $.ajax({ 
-                url: environment.apiUrl+'instalaciones.php',
+                url: environment.apiUrl+'preguntas.php',
                 type: 'post',
                 processData: false,
                 contentType: false,
@@ -21,26 +21,26 @@ export class FacilitiesService {
                     resolve(JSON.parse(data));
                 },
                 "error": function (request, status) {
-                    reject(request.responseText || "Error al recuperar la configuración desde el servidor.");
+                    reject(request.responseText || "Error al recuperar datos desde el servidor.");
                 }
             });
         });
     }
 
-    registerFacilities(facilities) { 
+    registerQuestion(question) { 
 
         var formData = new FormData();
-            formData.append("nombre", facilities.name);
+            formData.append("cuerpo", question.name);
+            formData.append("respuesta_esperada", question.expectedAnswer==true? '1' : '0');
 
         return new Promise((resolve, reject) => {
 
             $.ajax({
-                url: environment.apiUrl + 'instalaciones_nueva.php',
+                url: environment.apiUrl + 'pregunta_nueva.php',
                 type: 'post',
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    console.log(data);
                     var res = JSON.parse(data);
                     if(res.error==false) resolve(res.message);
                     else reject(res.message);
@@ -53,14 +53,41 @@ export class FacilitiesService {
         });
     }
 
-    deleteFacilities(id){
+    updateQuestion(question) { 
+
+        var formData = new FormData();
+        	formData.append("id", question.id);
+            formData.append("cuerpo", question.name);
+            formData.append("respuesta_esperada", question.expectedAnswer==true? '1' : '0');
+
+        return new Promise((resolve, reject) => {
+
+            $.ajax({
+                url: environment.apiUrl + 'pregunta_update.php',
+                type: 'post',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    var res = JSON.parse(data);
+                    if(res.error==false) resolve(res.message);
+                    else reject(res.message);
+                },
+                "error": function (request, status) {
+                    reject(request.responseText);
+                },
+                data: formData
+            });
+        });
+    }
+
+    deleteQuestion(id){
 
         var formData = new FormData();
             formData.append("id", id);
 
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: environment.apiUrl + 'instalaciones_eliminar.php',
+                url: environment.apiUrl + 'pregunta_eliminar.php',
                 type: 'post',
                 processData: false,
                 contentType: false,

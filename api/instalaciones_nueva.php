@@ -6,7 +6,7 @@ header('Access-Control-Allow-Methods: GET, POST');
 <?php
 include('conexion.php');
 
-@$nombre=utf8_decode($_REQUEST['nombre']);
+@$nombre=$_REQUEST['nombre'];
 
 if (!$mysqli -> query("INSERT INTO `instalaciones`(`nombre`) VALUES ('$nombre')")) {
     

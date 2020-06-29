@@ -36,6 +36,15 @@ $res = $mysqli->query("SELECT * FROM (
     ) as preg_superadas_sin_nul
     
 ) AS pregs ON pregs.id_movimiento = movs.id
+
+LEFT JOIN (
+    SELECT movimientos.id, CONCAT('[', GROUP_CONCAT('\"', instalaciones.nombre, '\"'), ']') as instalaciones
+    FROM movimientos 
+    LEFT JOIN movimientos_instalaciones ON movimientos_instalaciones.id_movimiento = movimientos.id
+    LEFT JOIN instalaciones ON movimientos_instalaciones.id_instalaciones = instalaciones.id
+    GROUP BY movimientos.id
+) AS inst ON inst.id = movs.id
+
 WHERE movs.supero_temperatura=1 AND movs.supero_olfativo=1 AND pregs.supero_preguntas=1");
 $json_res = array();
 

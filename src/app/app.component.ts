@@ -33,6 +33,10 @@ export class AppComponent {
         this.router.navigate(['/admins']);
     }
 
+    navQuestions(){
+        this.router.navigate(['/questions']);
+    }
+
     navHome(){
         this.navMovements();
     }

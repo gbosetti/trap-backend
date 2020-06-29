@@ -5,6 +5,7 @@ import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-fixedcolumns-dt';
 declare var bootbox: any;
+import { DatatablesSpanish } from '../_helpers/datatables-spanish';
 
 @Component({
   selector: 'app-home',
@@ -165,9 +166,7 @@ export class HomeComponent implements OnInit {
     $('#movements').DataTable({
       "data": formattedData,
       //"dom": '<"top"f>t<"bottom"lp><"clear">',
-      "language": {
-        "url": "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-      }
+      "language": DatatablesSpanish.getLangStrings()
     });
     
     $('#overlay-spinner').fadeOut();

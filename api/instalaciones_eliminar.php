@@ -8,9 +8,9 @@ include('conexion.php');
 
 @$id=$_REQUEST['id'];
 
-$registros=($mysqli->query("SELECT count(*) as count FROM `movimientos_instalaciones` WHERE `id_instalaciones`='$id'"))->fetch_assoc();
+$registros=($mysqli->query("SELECT count(*) as count FROM `movimientos_instalaciones` WHERE `id_instalaciones`=$id"))->fetch_assoc();
 if ($registros['count'] > 0) {
-	echo json_encode(array('error' => false, 'message' => 'La unidad indicada no puede ser eliminada ya que existen movimientos registrados en ella.'));
+	echo json_encode(array('error' => true, 'message' => 'La unidad indicada no puede ser eliminada ya que existen movimientos registrados en ella.'));
 	exit();
 }
 

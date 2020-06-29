@@ -4,4 +4,6 @@ export class User {
     firstName: string;
     lastName: string;
     token: string;
+    telefono: number;
+    codigo_area: number;
 }

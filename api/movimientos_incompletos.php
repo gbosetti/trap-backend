@@ -33,6 +33,15 @@ $res = $mysqli->query("SELECT *, IF(tmp_supero_preguntas IS NULL,0,tmp_supero_pr
         ) as preg_superadas
     
 ) AS pregs ON pregs.id_movimiento = movs.id
+
+LEFT JOIN (
+    SELECT movimientos.id, CONCAT('[', GROUP_CONCAT('\"', instalaciones.nombre, '\"'), ']') as instalaciones
+    FROM movimientos 
+    LEFT JOIN movimientos_instalaciones ON movimientos_instalaciones.id_movimiento = movimientos.id
+    LEFT JOIN instalaciones ON movimientos_instalaciones.id_instalaciones = instalaciones.id
+    GROUP BY movimientos.id
+) AS inst ON inst.id = movs.id
+
 WHERE movs.entrada IS NULL OR movs.salida IS NULL");
 $json_res = array();
 

@@ -37,7 +37,9 @@ export class RegisterComponent implements OnInit {
             firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(35)]],
             lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(35)]],
             password: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(15)]],
-            dni: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(15)]]
+            dni: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(15)]],
+            telefono: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(10)]],
+            codigo_area: [54380, [Validators.required, Validators.minLength(3), Validators.maxLength(4)]]
         });
         $('input:text:visible:first').focus();
     }

@@ -38,6 +38,8 @@ export class UserService {
             formData.append("apellido", user.lastName);
             formData.append("dni", user.dni.toString());
             formData.append("password", user.password);
+            formData.append("codigo_area", user.codigo_area.toString());
+            formData.append("telefono", user.telefono.toString());
 
         return new Promise((resolve, reject) => {
 

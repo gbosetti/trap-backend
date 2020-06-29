@@ -37,6 +37,15 @@ while($times = $res->fetch_object()){
                 GROUP BY id_movimiento
         ) as preg_superadas
         ) AS pregs ON pregs.id_movimiento = movs.id 
+
+        LEFT JOIN (
+            SELECT movimientos.id, CONCAT('[', GROUP_CONCAT('\"', instalaciones.nombre, '\"'), ']') as instalaciones
+            FROM movimientos 
+            LEFT JOIN movimientos_instalaciones ON movimientos_instalaciones.id_movimiento = movimientos.id
+            LEFT JOIN instalaciones ON movimientos_instalaciones.id_instalaciones = instalaciones.id
+            GROUP BY movimientos.id
+        ) AS inst ON inst.id = movs.id
+
         WHERE `dni_usuario` != $dni ";
 
     $entrada = $times->entrada;

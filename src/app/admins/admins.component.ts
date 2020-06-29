@@ -6,6 +6,7 @@ import 'bootstrap';
 import 'datatables.net';
 import 'datatables.net-fixedcolumns-dt';
 declare var bootbox: any;
+import { DatatablesSpanish } from '../_helpers/datatables-spanish';
 
 @Component({
   selector: 'app-admins',
@@ -30,8 +31,9 @@ export class AdminsComponent implements OnInit {
         { "title": "Apellido", "targets": 0 },
         { "title": "Nombre", "targets": 1 },
         { "title": "DNI", "width": "100px", "targets": 2 },
-        { "title": "Habilitado", "width": "100px", "targets": 3 },
-        { "title": "Acciones", "width": "150px", "targets": 4 }
+        { "title": "Teléfono", "width": "100px", "targets": 3 },
+        { "title": "Habilitado", "width": "100px", "targets": 4 },
+        { "title": "Acciones", "width": "150px", "targets": 5 }
       ]
     });
     var self = this;
@@ -57,6 +59,7 @@ export class AdminsComponent implements OnInit {
           e["apellido"], 
           e["nombre"], 
           e["dni"],
+          e["codigo_area"] + " " + e["telefono"],
           e["habilitado"]? 'Si <i class="fa fa-check" style="color:green"></i>' : 'No <i class="fa fa-times" style="color:#d5220e"></i>',
           "<div style='text-align: center'>" + 
 	          "<button data-action='" + ((e["habilitado"])? 'disableAdmin' : 'enableAdmin') + 
@@ -73,9 +76,7 @@ export class AdminsComponent implements OnInit {
       $('#admins').DataTable({
         "data": formattedData,
         "scrollX": true,
-        "language": {
-          "url": "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-        },
+        "language": DatatablesSpanish.getLangStrings(),
         "lengthMenu": [[50, 100, 500, -1], [50, 100, 500, "todos los"]]
       });
       $('#overlay-spinner').fadeOut();
@@ -87,7 +88,7 @@ export class AdminsComponent implements OnInit {
     bootbox.confirm("¿Está seguro de querer eliminar al usuario " + data.nombre + " " + data.apellido + "?", resp=>{
          if(resp){
          	this.userService.deleteAdmin(data.dni).then(msg =>{ 
-	             bootbox.alert(msg);
+	             //bootbox.alert(msg);
 	         }, msg =>{
 	             bootbox.alert(msg);
 	         }).finally(()=>{ this.loadAdmins(); });
@@ -101,7 +102,7 @@ export class AdminsComponent implements OnInit {
 
     	if(resp){
 		     this.userService.toggleAdminEnabledState(data.dni, true).then(msg =>{ 
-		         bootbox.alert(msg);
+		         //bootbox.alert(msg);
 		     }, msg =>{
 		         bootbox.alert(msg);
 		     }).finally(()=>{ this.loadAdmins(); });
@@ -114,7 +115,7 @@ export class AdminsComponent implements OnInit {
     bootbox.confirm("¿Está seguro de querer deshabilitar al usuario " + data.nombre + " " + data.apellido + "?", resp=>{
          if(resp){
          	this.userService.toggleAdminEnabledState(data.dni, false).then(msg =>{ 
-	             bootbox.alert(msg);
+	             //bootbox.alert(msg);
 	         }, msg =>{
 	             bootbox.alert(msg);
 	         }).finally(()=>{ this.loadAdmins(); });

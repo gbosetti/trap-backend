@@ -7,6 +7,7 @@ import 'datatables.net';
 import 'datatables.net-fixedcolumns-dt';
 declare var bootbox: any;
 import { FormBuilder, FormGroup, Validators, FormGroupDirective } from '@angular/forms';
+import { DatatablesSpanish } from '../_helpers/datatables-spanish';
 
 @Component({
   selector: 'app-facilities',
@@ -84,9 +85,7 @@ export class FacilitiesComponent implements OnInit {
       $('#facilities').DataTable({
         "data": formattedData,
         "scrollX": true,
-        "language": {
-          "url": "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json" // assets/DatatablesSpanish.json
-        },
+        "language": DatatablesSpanish.getLangStrings(),
         "lengthMenu": [[50, 100, 500, -1], [50, 100, 500, "todos los"]]
       });
       $('#overlay-spinner').fadeOut();
@@ -105,9 +104,9 @@ export class FacilitiesComponent implements OnInit {
         this.loading = true;
         this.facilitiesService.registerFacilities(this.registerForm.value).then(
             msg => {
-                bootbox.alert(msg, ()=>{
+                //bootbox.alert(msg, ()=>{
                 	$('.modal-backdrop').remove();
-                });
+                //});
                 $("#newFacilitiesModal").modal('hide');
                 this.loadFacilities();
             },
@@ -121,7 +120,7 @@ export class FacilitiesComponent implements OnInit {
 
   deleteFacilities(data){
 
-    bootbox.confirm("¿Está seguro de querer eliminar al usuario " + data.nombre + " " + data.apellido + "?", resp=>{
+    bootbox.confirm("¿Está seguro de querer eliminar " + data.nombre + "?", resp=>{
          if(resp){
          	this.facilitiesService.deleteFacilities(data.id).then(msg =>{ 
 	             //bootbox.alert(msg);

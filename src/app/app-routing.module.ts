@@ -7,6 +7,7 @@ import {AdminsComponent} from './admins/admins.component';
 import {SettingsComponent} from './settings/settings.component';
 import {GuardsComponent} from './guards/guards.component';
 import {FacilitiesComponent} from './facilities/facilities.component';
+import {QuestionsComponent} from './questions/questions.component';
 import { AuthGuard } from './_helpers/auth.guard';
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
     { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
     { path: 'guards', component: GuardsComponent, canActivate: [AuthGuard] },
     { path: 'facilities', component: FacilitiesComponent, canActivate: [AuthGuard] },
+    { path: 'questions', component: QuestionsComponent, canActivate: [AuthGuard] },
     { path: '**', redirectTo: '' }
 ];
 

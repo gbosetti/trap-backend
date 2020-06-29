@@ -6,8 +6,8 @@ header('Access-Control-Allow-Methods: GET, POST');
 <?php
 include('conexion.php');
 
-@$nombre=utf8_decode($_REQUEST['nombre']);
-@$apellido=utf8_decode($_REQUEST['apellido']);
+@$nombre=$_REQUEST['nombre'];
+@$apellido=$_REQUEST['apellido'];
 @$dni=$_REQUEST['dni'];
 
 if (!$mysqli -> query("INSERT INTO usuarios(`nombre`, `apellido`, `dni`) VALUES ('$nombre','$apellido','$dni')")) {
