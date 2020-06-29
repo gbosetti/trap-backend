@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 28, 2020 at 07:11 PM
+-- Generation Time: Jun 29, 2020 at 02:00 AM
 -- Server version: 5.7.30-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.6
 
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `instalaciones` (
-  `nombre` varchar(100) NOT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -36,14 +36,13 @@ CREATE TABLE `instalaciones` (
 --
 
 INSERT INTO `instalaciones` (`nombre`, `id`) VALUES
-('Ciencias y Tecnologías Aplicadas a la Producción, al Ambiente y al Urbanismo', 1),
-('Ciencias Exactas, Físicas y Naturales', 2),
-('Ciencias Sociales, Jurídicas y Económicas', 3),
-('Ciencias Humanas y de la Educación', 4),
 ('Ciencias de la Salud', 5),
-('Museo de Ciencias Antropologicas y Naturales', 6),
+('Museo de Ciencias Antropológicas y Naturales', 6),
 ('Albergue Universitario', 7),
-('Colegio Pre Universitario General San Martín', 8);
+('Ciencias Humanas y de la Educación', 12),
+('Ciencias Sociales, Jurí­dicas y Económicas', 13),
+('Ciencias Exactas, Fí­sicas y Naturales', 15),
+('Ciencias y Tecnologías Aplicadas a la Producción, al Ambiente y al Urbanismo', 16);
 
 -- --------------------------------------------------------
 
@@ -137,7 +136,9 @@ INSERT INTO `settings` (`nombre`, `valor`, `tipo`, `tooltip`, `display`, `placeh
 CREATE TABLE `usuarios` (
   `dni` varchar(15) NOT NULL,
   `apellido` varchar(35) NOT NULL,
-  `nombre` varchar(35) NOT NULL
+  `nombre` varchar(35) NOT NULL,
+  `telefono` varchar(10) NOT NULL,
+  `codigo_area` varchar(10) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -230,7 +231,7 @@ ALTER TABLE `usuarios_guardias`
 -- AUTO_INCREMENT for table `instalaciones`
 --
 ALTER TABLE `instalaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `movimientos`
 --
@@ -240,7 +241,7 @@ ALTER TABLE `movimientos`
 -- AUTO_INCREMENT for table `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
