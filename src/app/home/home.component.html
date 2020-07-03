@@ -42,7 +42,7 @@
 	      <div class="col-4">
 	          <label for="circuito">Individuo</label>
 	          <div class="ng-autocomplete buscar-individuo">
-                    <ng-autocomplete [data]="visitors" [searchKeyword]="keyword" [isLoading]="isVisitorLoading" (inputCleared)='onVisitorCleared()'
+                    <ng-autocomplete [data]="visitors" [searchKeyword]="keyword" [isLoading]="isVisitorLoadingResult" (inputCleared)='onVisitorCleared()'
                         (inputChanged)='getVisitorServerResponse($event)' [itemTemplate]="itemTemplate" 
                         (selected)='onVisitorSelected($event)'
                         [notFoundTemplate]="notFoundTemplate" placeHolder="Buscar individuo...">

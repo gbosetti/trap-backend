@@ -11,7 +11,7 @@ import { User } from './_model/user';
 export class AppComponent {
 
   	title = 'trap-backend';
-  	private currentUser: User;
+  	currentUser: User;
 
   	constructor(
         private router: Router,

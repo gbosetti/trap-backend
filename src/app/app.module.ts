@@ -15,6 +15,7 @@ import { GuardsComponent } from './guards/guards.component';
 import { FacilitiesComponent } from './facilities/facilities.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SettingsComponent,
     GuardsComponent,
     FacilitiesComponent,
-    QuestionsComponent
+    QuestionsComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
