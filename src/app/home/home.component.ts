@@ -142,7 +142,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onVisitorCleared(data){
+  onVisitorCleared(){
     this.clearDatatable();
   }
 

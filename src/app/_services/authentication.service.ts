@@ -55,6 +55,7 @@ export class AuthenticationService {
                     else {reject(data.message);};
                 },
                 "error": function (request, status) {
+                    console.log(request, status);
                     reject(request.responseText);
                 },
                 "data": formData
