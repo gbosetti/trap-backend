@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
+-- version 4.6.6deb4
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 29, 2020 at 02:00 AM
--- Server version: 5.7.30-0ubuntu0.18.04.1
--- PHP Version: 7.2.24-0ubuntu0.18.04.6
+-- Generation Time: Jul 11, 2020 at 07:10 PM
+-- Server version: 10.1.38-MariaDB-0+deb9u1
+-- PHP Version: 7.0.33-0+deb9u3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `trap-mobile`
+-- Database: `php_triage`
 --
 
 -- --------------------------------------------------------
@@ -42,7 +42,8 @@ INSERT INTO `instalaciones` (`nombre`, `id`) VALUES
 ('Ciencias Humanas y de la Educación', 12),
 ('Ciencias Sociales, Jurí­dicas y Económicas', 13),
 ('Ciencias Exactas, Fí­sicas y Naturales', 15),
-('Ciencias y Tecnologías Aplicadas a la Producción, al Ambiente y al Urbanismo', 16);
+('Ciencias y Tecnologías Aplicadas a la Producción, al Ambiente y al Urbanismo', 16),
+('Rectorado', 19);
 
 -- --------------------------------------------------------
 
@@ -58,7 +59,8 @@ CREATE TABLE `movimientos` (
   `temperatura` decimal(3,1) NOT NULL,
   `supero_olfativo` tinyint(4) NOT NULL,
   `dni_guardia_ingreso` varchar(15) NOT NULL,
-  `dni_guardia_egreso` varchar(15) NOT NULL
+  `dni_guardia_egreso` varchar(15) NOT NULL,
+  `autorizado` tinyint(4) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -103,7 +105,8 @@ CREATE TABLE `preguntas` (
 INSERT INTO `preguntas` (`id`, `cuerpo`, `respuesta_esperada`) VALUES
 (1, '¿Ha estado recientemente en contacto con algún caso covid-19 positivo?', 0),
 (2, '¿Ha salido de la ciudad en los últimos 14 días?', 0),
-(3, '¿Ha tenido fiebre esta semana?', 0);
+(3, '¿Ha tenido fiebre esta semana?', 0),
+(10, '¿Ha realizado un viaje a algun país de Asia durante el ultimo mes?', 0);
 
 -- --------------------------------------------------------
 
@@ -231,17 +234,17 @@ ALTER TABLE `usuarios_guardias`
 -- AUTO_INCREMENT for table `instalaciones`
 --
 ALTER TABLE `instalaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `movimientos`
 --
 ALTER TABLE `movimientos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

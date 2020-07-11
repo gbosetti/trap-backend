@@ -1,9 +1,6 @@
 <?php
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
-Content-Type: application/json
-
+header('Access-Control-Allow-Methods: GET, POST');
 ?>
 <?php
 include('conexion.php');
@@ -12,5 +9,5 @@ include('conexion.php');
 $res = $mysqli->query("SELECT * FROM `usuarios` WHERE dni = '$dni'");
 $user = $res->fetch_object();
 
-echo json_encode($user, JSON_UNESCAPED_UNICODE);
+echo '{"error":false, "data":' . json_encode($user, JSON_UNESCAPED_UNICODE) . '}';
 ?>
