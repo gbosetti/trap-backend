@@ -65,8 +65,8 @@ export class GuardsComponent implements OnInit {
 
         this.loading = true;
         this.userService.registerGuard(this.registerForm.value).then(
-            msg => {
-                bootbox.alert(msg, ()=>{
+            (res:any) => {
+                bootbox.alert(res.message, ()=>{
                 	$('.modal-backdrop').remove();
                 });
                 $("#newGuardModal").modal('hide');
@@ -110,9 +110,9 @@ export class GuardsComponent implements OnInit {
 
   	var formattedData = [];
     $('#overlay-spinner').fadeIn();
-    this.userService.getGuards().then((guards: Array<any>) => {
+    this.userService.getGuards().then((res: any) => {
 
-      guards.forEach(e => {
+      res.data.forEach(e => {
       	
         e["habilitado"] = this.toBool(e["habilitado"]);
         formattedData.push([

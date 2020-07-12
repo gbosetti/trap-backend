@@ -68,10 +68,9 @@ export class FacilitiesComponent implements OnInit {
 
   	var formattedData = [];
     $('#overlay-spinner').fadeIn();
-    this.facilitiesService.getFacilities().then((units: Array<any>) => {
+    this.facilitiesService.getFacilities().then((res:any) => {
 
-      units.forEach(e => {
-      	
+      res.data.forEach(e => {
         formattedData.push([
           e["nombre"], 
           "<div style='text-align: center'>" + 

@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import * as $ from 'jquery';
 import { environment } from '../../environments/environment';
+import { BaseService } from './base.service';
+import { AuthenticationService } from './authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MovementsService {
+export class MovementsService extends BaseService{
 
-  constructor() { }
+  constructor(private auth: AuthenticationService, private router: Router) { 
+      super(auth, router); 
+  }
 
   getUsers(){
   	return this.post(undefined, 'usuarios.php');
@@ -53,26 +58,4 @@ export class MovementsService {
         
     return this.post(formData, 'movimientos_matching.php');
   }
-
-  post(formData, endpoint) {
-
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: environment.apiUrl+endpoint,
-                type: 'post',
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                  console.log(data);
-                    var res = JSON.parse(data);
-                    if(res.error==false) resolve(res.data);
-                    else reject(res.message);
-                },
-                "error": function (request, status) {
-                    reject(request.responseText);
-                },
-                data: formData
-            });
-        });
-    }
 }

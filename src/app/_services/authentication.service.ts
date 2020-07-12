@@ -23,6 +23,11 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
+    setCurrentUserToken(token){
+        if(this.currentUserSubject.value!=undefined)
+            this.currentUserSubject.value.token = token;
+    }
+
     login(dni, password) {
 
         var formData = new FormData();
@@ -32,21 +37,20 @@ export class AuthenticationService {
         var self = this;
         return new Promise((resolve, reject) => {
             $.ajax({
-                "url": this.apiUrl + 'authenticate_admin.php',
+                "url": this.apiUrl + 'admin_autenticar.php',
                 "type": 'post',
                 "processData": false,
                 "contentType": false,
-                "success": function (data) {
-                    console.log(data);
+                "success": function (res) {
 
-                    data = JSON.parse(data);
+                    var data = JSON.parse(res);
                     if ('data' in data) {
 
                         var user = new User();
                             user["dni"] = data["data"]["dni"];
                             user["firstName"] = data["data"]["nombre"];
                             user["lastName"] = data["data"]["apellido"];
-                            user["token"] = 'fake-jwt-token';
+                            user["token"] = data["data"]["token"];
                             
                         localStorage.setItem('currentUser', JSON.stringify(user));
                         self.currentUserSubject.next(user);
@@ -55,7 +59,6 @@ export class AuthenticationService {
                     else {reject(data.message);};
                 },
                 "error": function (request, status) {
-                    console.log(request, status);
                     reject(request.responseText);
                 },
                 "data": formData

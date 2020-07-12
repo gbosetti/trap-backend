@@ -1,37 +1,26 @@
 import { Injectable } from '@angular/core';
-import { AuthenticationService } from '../_services/authentication.service';
 import { User } from '../_model/user';
 import { environment } from '../../environments/environment';
 import * as $ from 'jquery';
+import { BaseService } from './base.service';
+import { AuthenticationService } from './authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
-export class UserService {
+export class UserService extends BaseService{
 
-    constructor(private authenticationService: AuthenticationService) {}
+    constructor(private auth: AuthenticationService, private router: Router) { 
+        super(auth, router); 
+    }
 
     getUserMatching(keywords){
         var formData = new FormData();
             formData.append("keywords", keywords);
 
-        return new Promise((resolve, reject) => {
-
-            $.ajax({ 
-                url: environment.apiUrl+'usuario_matching.php',
-                type: 'post',
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    resolve(JSON.parse(data));
-                },
-                "error": function (request, status) {
-                    reject([]);
-                },
-                data: formData
-            });
-        });
+        return this.post(formData,'usuario_matching.php');
     }
 
-  	private registerUser(user: User, endpoint) { 
+  	private registerUser(user: User, endpoint, enableAuth) { 
 
         var formData = new FormData();
             formData.append("nombre", user.firstName);
@@ -41,60 +30,25 @@ export class UserService {
             formData.append("codigo_area", user.codigo_area.toString());
             formData.append("telefono", user.telefono.toString());
 
-        return new Promise((resolve, reject) => {
-
-            $.ajax({
-                url: environment.apiUrl + endpoint,
-                type: 'post',
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    var res = JSON.parse(data);
-                    if(res.error==false) resolve(res.message);
-                    else reject(res.message);
-                },
-                "error": function (request, status) {
-                    reject(request.responseText);
-                },
-                data: formData
-            });
-        });
+        return this.post(formData, endpoint, enableAuth);
     }
 
     registerAdmin(user: User) { 
 
-        return this.registerUser(user, 'admin_nuevo.php');
+        return this.registerUser(user, 'admin_nuevo.php', false);
     }
 
     registerGuard(user: User) { 
 
-        return this.registerUser(user, 'guardia_nuevo.php');
+        return this.registerUser(user, 'guardia_nuevo.php', true);
     }
 
     getAdmins(){
-
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                dataType: "json",
-                url: environment.apiUrl +"admins.php", 
-                success: function(data) {
-                    resolve(data);
-                }
-            });
-        });
+        return this.post(undefined, "admins.php");
     }
 
     getGuards(){
-
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                dataType: "json",
-                url: environment.apiUrl +"guardias.php", 
-                success: function(data) {
-                    resolve(data);
-                }
-            });
-        });
+        return this.post(undefined, "guardias.php");
     }
 
     private deleteUser(dni, endpoint){
@@ -102,7 +56,7 @@ export class UserService {
         var formData = new FormData();
             formData.append("dni", dni);
 
-        var currDni = (<any>this.authenticationService.currentUser.source).getValue()["dni"];
+        var currDni = (<any>this.auth.currentUser.source).getValue()["dni"];
 
         return new Promise((resolve, reject) => {
 
@@ -110,21 +64,9 @@ export class UserService {
                 reject('Usted no puede eliminar su propia cuenta.');
             }
             else{
-                $.ajax({
-                    url: environment.apiUrl + endpoint,
-                    type: 'post',
-                    processData: false,
-                    contentType: false,
-                    success: function (data) {
-                        var res = JSON.parse(data);
-                        if(res.error==false) resolve(res.message);
-                        else reject(res.message);
-                    },
-                    "error": function (request, status) {
-                        reject(request.responseText);
-                    },
-                    data: formData
-                });
+                return this.post(formData, endpoint).then(data=>{
+                    resolve(data);
+                }).catch(err=>{reject(err)});
             };
         });
     }
@@ -145,7 +87,7 @@ export class UserService {
             formData.append("dni", dni);
             formData.append("habilitado", (enabled? "1":"0"));
 
-        var currDni = (<any>this.authenticationService.currentUser.source).getValue()["dni"];
+        var currDni = (<any>this.auth.currentUser.source).getValue()["dni"];
 
         return new Promise((resolve, reject) => {
 
@@ -153,21 +95,9 @@ export class UserService {
                 reject('Usted no puede cambiar su propio estado.');
             }
             else{
-                $.ajax({
-                    url: environment.apiUrl + endpoint,
-                    type: 'post',
-                    processData: false,
-                    contentType: false,
-                    success: function (data) {
-                        var res = JSON.parse(data);
-                        if(res.error==false) resolve(res.message);
-                        else reject(res.message);
-                    },
-                    "error": function (request, status) {
-                        reject(request.responseText);
-                    },
-                    data: formData
-                });
+                this.post(formData, endpoint).then(data=>{
+                    resolve(data);
+                }).catch(err=>{reject(err)});
             }
         });
     }

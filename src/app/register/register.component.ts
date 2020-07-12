@@ -24,12 +24,7 @@ export class RegisterComponent implements OnInit {
         private router: Router,
         private authenticationService: AuthenticationService,
         private userService: UserService
-    ) {
-        // redirect to home if already logged in
-        if (this.authenticationService.currentUserValue) {
-            this.router.navigate(['/']);
-        }
-    }
+    ) {}
 
     ngOnInit() {
     	$('input:text:visible:first').focus();
@@ -57,9 +52,9 @@ export class RegisterComponent implements OnInit {
 
         this.loading = true;
         this.userService.registerAdmin(this.registerForm.value).then(
-            msg => {
+            (res:any) => {
                 this.router.navigate(['/login']).then(()=>{
-                  bootbox.alert({ message: msg });
+                  bootbox.alert({ message: res.message });
                 });
             },
             error => {

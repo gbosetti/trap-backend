@@ -1,30 +1,21 @@
 import { Injectable } from '@angular/core';
 import * as $ from 'jquery';
 import { environment } from '../../environments/environment';
+import { BaseService } from './base.service';
+import { AuthenticationService } from './authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SettingsService {
+export class SettingsService extends BaseService{
 
-  	constructor() { }
+    constructor(private auth: AuthenticationService, private router: Router) { 
+        super(auth, router); 
+    }
 
   	getSettings(){
-        return new Promise((resolve, reject) => {
-
-            $.ajax({ 
-                url: environment.apiUrl+'settings.php',
-                type: 'post',
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    resolve(JSON.parse(data));
-                },
-                "error": function (request, status) {
-                    reject(request.responseText || "Error al recuperar la configuración desde el servidor.");
-                }
-            });
-        });
+        return this.post(undefined,'settings.php');
     }
 
     updateSettings(settings){
@@ -32,23 +23,6 @@ export class SettingsService {
         var formData = new FormData();
             formData.append("settings", JSON.stringify(settings));
 
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: environment.apiUrl+'settings_update.php',
-                type: 'post',
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    var res = JSON.parse(data);
-                    console.log(res);
-                    if(res.error==false) resolve(res.message);
-                    else reject(res.message);
-                },
-                "error": function (request, status) {
-                    reject(request.responseText);
-                },
-                data: formData
-            });
-        });
+        return this.post(formData,'settings_update.php');
     }
 }

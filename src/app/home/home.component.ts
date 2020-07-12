@@ -74,29 +74,29 @@ export class HomeComponent implements OnInit {
 	loadAllMovements(from, to){
     this.hideMovementsMatchingControls();
     
-    this.movements.getMovements(from, to).then((movements: Array<any>) => {
-      this.loadMovements(movements);
+    this.movements.getMovements(from, to).then((res:any) => {
+      this.loadMovements(res.data);
     });
 	}
 
   loadAuthorizedMovements(from, to){
     this.hideMovementsMatchingControls();
-    this.movements.getAuthorizedMovements(from, to).then((movements: Array<any>) => {
-      this.loadMovements(movements);
+    this.movements.getAuthorizedMovements(from, to).then((res:any) => {
+      this.loadMovements(res.data);
     });
   }
 
   loadDeniedMovements(from, to){
     this.hideMovementsMatchingControls();
-    this.movements.getDeniedMovements(from, to).then((movements: Array<any>) => {
-      this.loadMovements(movements);
+    this.movements.getDeniedMovements(from, to).then((res:any) => {
+      this.loadMovements(res.data);
     });
   }
 
   loadNotClosedMovements(from, to){
     this.hideMovementsMatchingControls();
-    this.movements.getNotClosedMovements(from, to).then((movements: Array<any>) => {
-      this.loadMovements(movements);
+    this.movements.getNotClosedMovements(from, to).then((res:any) => {
+      this.loadMovements(res.data);
     });
   }
 
@@ -125,9 +125,9 @@ export class HomeComponent implements OnInit {
     $(".alert-info-visitante").removeClass("d-none");
     $(".alert-info-visitante .nombre-visitante").html("Registros de " + data.name);
     $(".alert-info-visitante .registros-visitante").html('');
-    this.movements.getMovementsMatchingUser(data.id, this.getFromDate(), this.getToDate()).then((movements: Array<any>) => {
+    this.movements.getMovementsMatchingUser(data.id, this.getFromDate(), this.getToDate()).then((res:any) => {
 
-      movements['user_movements'].forEach(mov=>{
+      res.data['user_movements'].forEach(mov=>{
         $(".alert-info-visitante .registros-visitante").append('<li class="list-group-item">'+
             '<i class="fa fa-minus mr-3" aria-hidden="true"></i> ' + 
             '<span class="mr-3"> ingreso: ' + mov['entrada'] + '</span>' +
@@ -135,7 +135,7 @@ export class HomeComponent implements OnInit {
           '</li>');
       });
       
-      this.loadMovements(movements['related_movements']);
+      this.loadMovements(res.data['related_movements']);
 
     }).catch(err=>{
       this.clearDatatable();
@@ -166,6 +166,7 @@ export class HomeComponent implements OnInit {
       });
 
       formattedData.push([
+        (e["autorizado"]==1? '<i class="fa fa-check" style="color:green"></i> Si' : '<i class="fa fa-times" style="color:#d5220e"></i> No'), 
         e["entrada"], 
         e["salida"]=='0000-00-00 00:00:00'? '':e["salida"], //.replace(' ', '<br>'), 
         e["apellido"].toUpperCase() + ', ' + e["nombre"], 
@@ -216,16 +217,17 @@ export class HomeComponent implements OnInit {
 
       $('#movements').DataTable({
             "columnDefs": [ 
-              { "title": "Ingreso", "targets": 0, "width": "75px" },
-              { "title": "Egreso", "targets": 1, "width": "75px" },
-              { "title": "Apellido y nombre", "targets": 2, "width": "100px" },
-              { "title": "DNI", "targets": 3, "width": "75px" },
-              { "title": "Tempe<br>ratura", "targets": 4, "width": "75px" },
-              { "title": "Test<br>olfativo<br>superado", "targets": 5, "width": "75px" },
-              { "title": "Preguntas superadas", "targets": 6, "width": "75px" },
-              { "title": "Instalaciones<br>visitadas", "targets": 7 },
-              { "title": "Ingreso registrado por:", "targets": 8, "width": "100px" },
-              { "title": "Egreso registrado por:", "targets": 9, "width": "100px" }
+              { "title": "Autori<br>zado", "targets": 0, "width": "75px" },
+              { "title": "Ingreso", "targets": 1, "width": "75px" },
+              { "title": "Egreso", "targets": 2, "width": "75px" },
+              { "title": "Apellido y nombre", "targets":3, "width": "100px" },
+              { "title": "DNI", "targets": 4, "width": "75px" },
+              { "title": "Tempe<br>ratura", "targets": 5, "width": "75px" },
+              { "title": "Test<br>olfativo<br>superado", "targets": 6, "width": "75px" },
+              { "title": "Preguntas superadas", "targets": 7, "width": "75px" },
+              { "title": "Instalaciones<br>visitadas", "targets": 8 },
+              { "title": "Ingreso registrado por:", "targets": 9, "width": "100px" },
+              { "title": "Egreso registrado por:", "targets": 10, "width": "100px" }
             ]
       });
       var self = this;
@@ -243,8 +245,8 @@ export class HomeComponent implements OnInit {
       return;
 
     this.isVisitorLoadingResult = true;
-    this.users.getUserMatching(keywords).then(data => {
-        this.visitors = data;
+    this.users.getUserMatching(keywords).then((res:any) => {
+        this.visitors = res.data;
         this.isVisitorLoadingResult = false;
     }, data => {
         this.visitors = [];

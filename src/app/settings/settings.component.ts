@@ -19,10 +19,10 @@ export class SettingsComponent implements OnInit {
   	loadSettings(){
   		
   		$(".settings").html('');
-  		this.settingsService.getSettings().then((settings: Array<any>) => {
+  		this.settingsService.getSettings().then((res:any) => {
 
     		var i = 0, row;
-      		settings.forEach(cog => {
+      		res.data.forEach(cog => {
 
       			if (i % 3 == 0){
 	    			row = $(`<div class="row"></div>`);

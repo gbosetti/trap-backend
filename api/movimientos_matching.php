@@ -5,6 +5,17 @@ header('Access-Control-Allow-Methods: GET, POST');
 <?php
 
 include('conexion.php');
+#Authentication
+include('autenticacion.php');
+$guard_token=$_REQUEST['guard_token'];
+$guard_dni=$_REQUEST['guard_dni'];
+if(!$auth->validate($guard_token, $guard_dni)){
+    echo '{"error": true, "auth": false}'; 
+    exit();
+}
+$guard_token=$auth->generate_token($guard_dni);
+
+#Params
 @$dni=$_REQUEST['dni'];
 @$fromDate=$_REQUEST['fromDate'];
 @$toDate=$_REQUEST['toDate'];
@@ -71,5 +82,5 @@ while($times = $res->fetch_object()){
     }
 }
 
-echo '{"error":false, "data":{ "user_movements": ' . json_encode($user_movements, JSON_UNESCAPED_UNICODE) . ', "related_movements":' . json_encode($matching_movements, JSON_UNESCAPED_UNICODE) . '}}';
+echo '{"auth":true, "token":"'.$guard_token.'", "error":false, "data":{ "user_movements": ' . json_encode($user_movements, JSON_UNESCAPED_UNICODE) . ', "related_movements":' . json_encode($matching_movements, JSON_UNESCAPED_UNICODE) . '}}';
 ?>

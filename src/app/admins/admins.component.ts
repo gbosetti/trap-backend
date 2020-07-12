@@ -50,9 +50,9 @@ export class AdminsComponent implements OnInit {
 
   	var formattedData = [];
     $('#overlay-spinner').fadeIn();
-    this.userService.getAdmins().then((admins: Array<any>) => {
+    this.userService.getAdmins().then((res:any) => {
 
-      admins.forEach(e => {
+      res.data.forEach(e => {
       	
         e["habilitado"] = this.toBool(e["habilitado"]);
         formattedData.push([
@@ -102,10 +102,11 @@ export class AdminsComponent implements OnInit {
 
     	if(resp){
 		     this.userService.toggleAdminEnabledState(data.dni, true).then(msg =>{ 
-		         //bootbox.alert(msg);
+		        this.loadAdmins();
 		     }, msg =>{
 		         bootbox.alert(msg);
-		     }).finally(()=>{ this.loadAdmins(); });
+             this.loadAdmins();
+		     });
 		 }
     }); 
   }

@@ -83,9 +83,9 @@ export class QuestionsComponent implements OnInit {
 
   	var formattedData = [];
     $('#overlay-spinner').fadeIn();
-    this.questions.getQuestions().then((units: Array<any>) => {
+    this.questions.getQuestions().then((res:any) => {
 
-      units.forEach(e => {
+    res.data.forEach(e => {
 
 		e["respuesta_esperada"] = this.toBool(e["respuesta_esperada"]);
 
