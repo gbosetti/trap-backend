@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 11, 2020 at 07:10 PM
+-- Generation Time: Jul 12, 2020 at 10:18 AM
 -- Server version: 10.1.38-MariaDB-0+deb9u1
 -- PHP Version: 7.0.33-0+deb9u3
 
@@ -165,7 +165,8 @@ CREATE TABLE `usuarios_admins` (
 CREATE TABLE `usuarios_guardias` (
   `dni_usuario` varchar(15) NOT NULL,
   `password` varchar(15) NOT NULL,
-  `habilitado` tinyint(4) NOT NULL
+  `habilitado` tinyint(4) NOT NULL,
+  `email` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -234,12 +235,12 @@ ALTER TABLE `usuarios_guardias`
 -- AUTO_INCREMENT for table `instalaciones`
 --
 ALTER TABLE `instalaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `movimientos`
 --
 ALTER TABLE `movimientos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT for table `preguntas`
 --
