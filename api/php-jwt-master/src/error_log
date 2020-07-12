@@ -1,0 +1,6 @@
+[13-Jun-2020 22:42:40 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php71/root/usr/lib64/php/modules/imagick.so' - libMagickWand.so.5: cannot open shared object file: No such file or directory in Unknown on line 0
+[13-Jun-2020 19:42:40 America/Argentina/Buenos_Aires] PHP Fatal error:  Trait 'Ahc\Jwt\ValidatesJWT' not found in /home/solesonzini/public_html/uno_pastas/endpoints/php-jwt-master/src/JWT.php on line 26
+[13-Jun-2020 22:47:29 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php71/root/usr/lib64/php/modules/imagick.so' - libMagickWand.so.5: cannot open shared object file: No such file or directory in Unknown on line 0
+[13-Jun-2020 19:47:29 America/Argentina/Buenos_Aires] PHP Fatal error:  Trait 'Ahc\Jwt\ValidatesJWT' not found in /home/solesonzini/public_html/uno_pastas/endpoints/php-jwt-master/src/JWT.php on line 26
+[13-Jun-2020 22:47:32 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php71/root/usr/lib64/php/modules/imagick.so' - libMagickWand.so.5: cannot open shared object file: No such file or directory in Unknown on line 0
+[13-Jun-2020 19:47:32 America/Argentina/Buenos_Aires] PHP Fatal error:  Trait 'Ahc\Jwt\ValidatesJWT' not found in /home/solesonzini/public_html/uno_pastas/endpoints/php-jwt-master/src/JWT.php on line 26
