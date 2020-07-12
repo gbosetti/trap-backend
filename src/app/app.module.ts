@@ -16,6 +16,7 @@ import { FacilitiesComponent } from './facilities/facilities.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AboutComponent } from './about/about.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -39,9 +40,7 @@ import { AboutComponent } from './about/about.component';
     AutocompleteLibModule,
     NgbModule
   ],
-  providers: [
-
-  ],
+  providers: [ {provide: LocationStrategy, useClass: HashLocationStrategy} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
