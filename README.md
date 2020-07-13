@@ -7,9 +7,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 1. Import the database with PhpMyAdmin by using the `trap-backend/api/php_triage.sql` file.
 
 2. Clone the project and install the dependencies:
-`git clone https://github.com/gbosetti/trap-backend
+```
+git clone https://github.com/gbosetti/trap-backend
 cd ./trap-backend
-npm install`
+npm install
+```
 
 3. Place the `trap-backend/api/*` files in your server.
 
@@ -31,3 +33,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Mobile frontend
 
 Available in https://github.com/gbosetti/trap-mobile
+
+## Demos
+https://www.youtube.com/playlist?list=PLHuNJBFXxaLDFt2sIIo-4rQIkes2s7WaN
