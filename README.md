@@ -1,6 +1,7 @@
 # TrapBackend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.4.
+This project is supporting the backend of a triage platform. 
+It was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.4.
 
 ## Setup
 
